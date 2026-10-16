@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2O Wire</title>
+<meta name="description" content="An independent, unofficial English-language wire for global fans of A2O LITE and A2O SOUL — tracking the October 2026 debut of &quot;NEON&quot; and &quot;SUPERSTAR,&quot; Lee Soo-man&#39;s new groups, and every official-only video drop.">
+<meta property="og:title" content="A2O Wire">
+<meta property="og:description" content="An independent, unofficial English-language wire for A2O LITE and A2O SOUL — debut news, official videos, and a release clock.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4FAFB;
+    --paper-raised:#FFFFFF;
+    --ink:#0C1E26;
+    --ink-dim:#4A6470;
+    --ink-faint:#8AA1AB;
+    --line:#D3E6EB;
+    --accent:#12B5CB;
+    --accent-deep:#0A7C8C;
+    --accent-tint:#D5F2F6;
+    --noir:#0C1E26;
+    --noir-deep:#000000;
+    --noir-tint:#DCEBEF;
+    --live:#2F7A4C;
+    --shadow: 0 1px 2px rgba(12,30,38,0.06), 0 10px 28px rgba(12,30,38,0.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#081317;
+      --paper-raised:#0F2229;
+      --ink:#E4F4F7;
+      --ink-dim:#9FC4CE;
+      --ink-faint:#5F8590;
+      --line:#1E3A43;
+      --accent:#3FD6EA;
+      --accent-deep:#8FEAF5;
+      --accent-tint:#12363E;
+      --noir:#E4F4F7;
+      --noir-deep:#FFFFFF;
+      --noir-tint:#12282F;
+      --live:#66CD8C;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#081317;
+    --paper-raised:#0F2229;
+    --ink:#E4F4F7;
+    --ink-dim:#9FC4CE;
+    --ink-faint:#5F8590;
+    --line:#1E3A43;
+    --accent:#3FD6EA;
+    --accent-deep:#8FEAF5;
+    --accent-tint:#12363E;
+    --noir:#E4F4F7;
+    --noir-deep:#FFFFFF;
+    --noir-tint:#12282F;
+    --live:#66CD8C;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Fraunces', Georgia, 'Times New Roman', serif; font-weight:600; text-wrap:balance; margin:0;}
+  p{margin:0;}
+  .mono{font-family:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric:tabular-nums;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(1.25rem, 4vw, 2.5rem);}
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent-deep); outline-offset:3px; border-radius:4px;}
+
+  /* ---------- Masthead ---------- */
+  .masthead{position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid var(--line);}
+  .masthead__top{
+    max-width:1080px; margin:0 auto; padding:0.9rem clamp(1.25rem, 4vw, 2.5rem) 0.7rem;
+    display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+  }
+  .wordmark{font-family:'Fraunces', serif; font-weight:700; font-size:1.35rem; text-decoration:none; letter-spacing:-0.01em;}
+  .masthead__kicker{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-faint);}
+  .ticker{border-top:1px solid var(--line); background:var(--accent-tint); overflow:hidden; white-space:nowrap;}
+  .ticker__track{display:inline-flex; gap:2.5rem; padding:0.45rem clamp(1.25rem, 4vw, 2.5rem); animation:ticker 34s linear infinite;}
+  .ticker__track span{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.03em; color:var(--accent-deep); font-weight:600;}
+  @keyframes ticker{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion: reduce){ .ticker__track{animation:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:clamp(2.75rem,7vw,5.5rem) 0 clamp(2.5rem,6vw,4rem);}
+  .dateline{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; color:var(--noir); font-weight:600;}
+  .hero h1{font-size:clamp(2.4rem, 6vw, 4.2rem); line-height:1.02; margin-top:0.6rem; letter-spacing:-0.02em;}
+  .hero__sub{max-width:42rem; margin-top:1.25rem; font-size:1.08rem; color:var(--ink-dim); max-width:60ch;}
+  .hero__note{margin-top:1rem; font-size:0.86rem; color:var(--ink-faint); max-width:60ch; border-left:2px solid var(--accent); padding-left:0.8rem;}
+  .hero__meta{margin-top:1.4rem; font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint); display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;}
+  .tag{display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.2rem 0.5rem; border-radius:3px; font-weight:600;}
+  .tag--sample{background:var(--noir-tint); color:var(--ink-dim);}
+  .tag--live{background:var(--accent-tint); color:var(--accent-deep);}
+  .hero__actions{margin-top:2rem; display:flex; gap:0.9rem; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:0.4rem; padding:0.75rem 1.3rem; border-radius:3px; text-decoration:none; font-weight:600; font-size:0.92rem; border:1px solid transparent; transition:transform .15s ease, background .15s ease;}
+  .btn--primary{background:var(--accent); color:#0C1E26;}
+  .btn--primary:hover{background:var(--accent-deep); color:#0C1E26; transform:translateY(-1px);}
+  .btn--ghost{border-color:var(--line); color:var(--ink);}
+  .btn--ghost:hover{border-color:var(--accent); color:var(--accent-deep);}
+
+  /* ---------- Section scaffolding ---------- */
+  .section-label{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.9rem;}
+  .desk-section{padding:clamp(2.75rem,6vw,4.5rem) 0; border-top:1px solid var(--line);}
+  .desk-section--alt{background:var(--paper-raised);}
+  .desk-head{display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem;}
+  .desk-head h2{font-size:clamp(1.6rem,3.4vw,2.1rem);}
+  .desk-note{max-width:34ch; font-size:0.88rem; color:var(--ink-dim);}
+
+  /* ---------- Desk grid ---------- */
+  .desks{padding:clamp(2.5rem,6vw,4rem) 0 0;}
+  .desk-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  .desk-card{background:var(--paper-raised); padding:1.5rem; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:0.8rem; transition:background .15s ease;}
+  .desk-card:hover{background:var(--accent-tint);}
+  .desk-card__num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--noir); font-weight:600; letter-spacing:0.06em;}
+  .desk-card svg{width:26px; height:26px; stroke:var(--accent-deep); fill:none; stroke-width:1.6;}
+  .desk-card h3{font-size:1.05rem; font-weight:600;}
+  .desk-card p{font-size:0.86rem; color:var(--ink-dim);}
+
+  /* ---------- News desk ---------- */
+  .dispatch-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem;}
+  .dispatch{background:var(--paper-raised); border:1px solid var(--line); border-radius:6px; padding:1.4rem; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:0.7rem;}
+  .dispatch__eyebrow{display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono', monospace; font-size:0.66rem; color:var(--ink-faint); letter-spacing:0.05em;}
+  .dispatch h3{font-size:1.1rem; line-height:1.3;}
+  .dispatch p{font-size:0.9rem; color:var(--ink-dim);}
+  .dispatch__credit{font-size:0.76rem; color:var(--ink-faint); border-top:1px dashed var(--line); padding-top:0.7rem; margin-top:0.2rem;}
+  .dispatch__link{font-size:0.82rem; font-weight:600; color:var(--accent-deep); text-decoration:none;}
+  .dispatch__link:hover{text-decoration:underline;}
+
+  /* ---------- Review desk ---------- */
+  .review{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:2.5rem; align-items:start;}
+  .review__stamp{border:1px solid var(--noir); color:var(--noir); font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.1em; padding:0.85rem 1rem; border-radius:4px; text-align:center;}
+  .review__stamp .score{display:block; font-size:1.6rem; color:var(--ink); font-weight:600; margin-bottom:0.15rem;}
+  .review blockquote{font-family:'Fraunces', serif; font-style:italic; font-size:clamp(1.2rem,2.4vw,1.55rem); line-height:1.4; margin:0 0 1rem; color:var(--ink);}
+  .review__body p{color:var(--ink-dim); font-size:0.95rem; margin-bottom:0.9rem;}
+  .tracklist{list-style:none; margin:0 0 1rem; padding:0; font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--ink-dim); display:grid; gap:0.35rem;}
+  .tracklist li{display:flex; gap:0.6rem;}
+  .tracklist span.n{color:var(--ink-faint); width:1.4rem; flex-shrink:0;}
+  .tracklist li.title-track{color:var(--accent-deep); font-weight:600;}
+  @media (max-width: 720px){ .review{grid-template-columns:1fr;} .review__stamp{width:fit-content;} }
+
+  /* ---------- Screening room ---------- */
+  .screen-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem;}
+  .screen-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:6px; overflow:hidden; box-shadow:var(--shadow);}
+  .screen-card__frame{position:relative; aspect-ratio:16/9; background:#000;}
+  .screen-card__frame iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+  .screen-card__placeholder{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; color:var(--ink-faint); background:var(--accent-tint);}
+  .screen-card__placeholder svg{width:34px; height:34px; stroke:var(--accent-deep); fill:none; stroke-width:1.5;}
+  .screen-card__body{padding:1.1rem 1.3rem;}
+  .screen-card__body h3{font-size:0.98rem; margin-bottom:0.35rem;}
+  .screen-card__body p{font-size:0.84rem; color:var(--ink-dim);}
+
+  /* ---------- Signal desk ---------- */
+  .signal-list{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--paper-raised);}
+  .signal-row{display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:center; padding:1.1rem 1.4rem; border-top:1px solid var(--line);}
+  .signal-row:first-child{border-top:none;}
+  .signal-row__name{font-weight:600; font-size:0.98rem;}
+  .signal-row__meta{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint); margin-top:0.25rem;}
+  .signal-row__countdown{font-family:'IBM Plex Mono', monospace; font-size:0.95rem; font-weight:600; color:var(--accent-deep); text-align:right; white-space:nowrap;}
+  .signal-row__countdown small{display:block; font-size:0.62rem; font-weight:500; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.06em;}
+  .signal-footnote{margin-top:1rem; font-size:0.78rem; color:var(--ink-faint);}
+  @media (max-width:560px){ .signal-row{grid-template-columns:1fr;} .signal-row__countdown{text-align:left;} }
+
+  /* ---------- Quiz desk ---------- */
+  .quiz-panel{background:var(--paper-raised); border:1px solid var(--line); border-radius:6px; padding:clamp(1.5rem,3vw,2.25rem); box-shadow:var(--shadow); max-width:640px;}
+  .quiz-progress{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--ink-faint); margin-bottom:0.6rem; letter-spacing:0.05em;}
+  .quiz-question{font-size:1.2rem; margin-bottom:1.1rem;}
+  .quiz-options{display:grid; gap:0.6rem;}
+  .quiz-option{text-align:left; padding:0.8rem 1rem; border:1px solid var(--line); border-radius:5px; background:transparent; color:var(--ink); font-family:inherit; font-size:0.92rem; cursor:pointer; transition:border-color .15s ease, background .15s ease;}
+  .quiz-option:hover{border-color:var(--accent); background:var(--accent-tint);}
+  .quiz-result{display:none;}
+  .quiz-result.is-active{display:block;}
+  .quiz-question-wrap.is-hidden{display:none;}
+  .quiz-result__title{font-size:1.4rem; margin-bottom:0.6rem;}
+  .quiz-result__body{color:var(--ink-dim); font-size:0.95rem; margin-bottom:1rem;}
+  .quiz-result__track{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--noir); margin-bottom:1.2rem;}
+  .quiz-reset{font-size:0.85rem; font-weight:600; color:var(--accent-deep); background:none; border:none; cursor:pointer; padding:0; font-family:inherit;}
+  .quiz-reset:hover{text-decoration:underline;}
+
+  /* ---------- Market desk ---------- */
+  .market-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1.4rem;}
+  .market-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:6px; padding:1.3rem; display:flex; flex-direction:column; gap:0.6rem; box-shadow:var(--shadow);}
+  .market-card h3{font-size:1.02rem;}
+  .market-card p{font-size:0.85rem; color:var(--ink-dim);}
+  .market-card a{font-size:0.85rem; font-weight:600; color:var(--accent-deep); text-decoration:none;}
+  .market-card a:hover{text-decoration:underline;}
+
+  /* ---------- Footer / colophon ---------- */
+  .colophon{border-top:1px solid var(--line); background:var(--paper-raised); padding:clamp(2.5rem,5vw,3.5rem) 0 2.5rem;}
+  .colophon__grid{display:grid; grid-template-columns:1.1fr 1.4fr; gap:2.5rem;}
+  .colophon .wordmark{font-size:1.15rem;}
+  .colophon p{font-size:0.82rem; color:var(--ink-dim); margin-top:0.9rem; max-width:46ch;}
+  .colophon__fine{font-size:0.72rem; color:var(--ink-faint); margin-top:1.5rem; font-family:'IBM Plex Mono', monospace; line-height:1.6;}
+  @media (max-width:720px){ .colophon__grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="masthead" id="top">
+    <div class="masthead__top">
+      <a class="wordmark" href="#top">A2O Wire</a>
+      <span class="masthead__kicker">Unofficial A2O Dispatch · English Edition</span>
+<a class="masthead__kicker" href="https://fhzl0117-hue.github.io/">K-Wire Network &#8599;</a>
+    </div>
+    <div class="ticker" aria-label="Latest wire headlines">
+      <div class="ticker__track">
+        <span>"NEON" HITS NO. 1 ON MELON TOP 100 IN 29 HOURS — FASTEST ROOKIE-GROUP DEBUT SINCE THE 2021 CHART REVAMP</span>
+        <span>A2O LITE (9) AND A2O SOUL (15) DEBUT TOGETHER OCT 13 UNDER LEE SOO-MAN'S A2O ENTERTAINMENT</span>
+        <span>"NEON" TAKES ITS FIRST MUSIC-SHOW STAGE ON M COUNTDOWN, OCT 15</span>
+        <span>SHARED SCI-FI UNIVERSE "ACE" AND 4D GAUSSIAN SPLATTING UNVEILED AT KINTEX SHOWCASE</span>
+        <span>"NEON" HITS NO. 1 ON MELON TOP 100 IN 29 HOURS — FASTEST ROOKIE-GROUP DEBUT SINCE THE 2021 CHART REVAMP</span>
+        <span>A2O LITE (9) AND A2O SOUL (15) DEBUT TOGETHER OCT 13 UNDER LEE SOO-MAN'S A2O ENTERTAINMENT</span>
+        <span>"NEON" TAKES ITS FIRST MUSIC-SHOW STAGE ON M COUNTDOWN, OCT 15</span>
+        <span>SHARED SCI-FI UNIVERSE "ACE" AND 4D GAUSSIAN SPLATTING UNVEILED AT KINTEX SHOWCASE</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="dateline">SEOUL — OCTOBER 2026</p>
+      <h1>A Signal From<br>Planet Soulite.</h1>
+      <p class="hero__sub">Two new groups, one shared universe. On October 13, 2026, A2O Entertainment — the company Lee Soo-man founded after leaving SM Entertainment — debuted nine-member girl group <strong>A2O LITE</strong> and 15-member boy group <strong>A2O SOUL</strong> side by side, with the singles "NEON" and "SUPERSTAR." Within 29 hours, "NEON" was No. 1 on Melon's Top 100, the fastest rookie-group debut song to get there since Melon revamped its chart in 2021. Both groups were introduced at a joint showcase at KINTEX in Goyang and share a sci-fi world called ACE, set on a planet named Soulite, with music and performance overseen by producer Yoo Young-jin. This page is a working build of how <strong>A2O Wire</strong> tracks all of it for English-speaking fans — translated, sourced, and converted to whatever timezone you're reading from.</p>
+      <p class="hero__note">A note on the lineup: A2O LITE has nine members and A2O SOUL has fifteen, per the agency's debut materials as reported by Soompi and Korean outlets. Several members are very young, so this page sticks to names, music, and officially released video, and nothing more personal.</p>
+      <p class="hero__meta">DISPATCH NO. 0001 · OCT 16, 2026 · <span class="tag tag--live">Debut Era · 2026</span></p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#desks">Enter the wire room ↓</a>
+        <a class="btn btn--ghost" href="#about">What is this?</a>
+      </div>
+    </section>
+
+    <section class="desks wrap" id="desks">
+      <p class="section-label">The desks</p>
+      <div class="desk-grid">
+        <a class="desk-card" href="#news">
+          <span class="desk-card__num">DESK 01</span>
+          <svg viewBox="0 0 24 24"><path d="M4 4h13a2 2 0 0 1 2 2v13a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4Z"/><path d="M17 4v14a2 2 0 0 0 2 2h1"/><path d="M7 8h8M7 12h8M7 16h5"/></svg>
+          <h3>News Desk</h3>
+          <p>Korean and English coverage, translated and summarized — always credited back to the original outlet.</p>
+        </a>
+        <a class="desk-card" href="#reviews">
+          <span class="desk-card__num">DESK 02</span>
+          <svg viewBox="0 0 24 24"><path d="M12 3l2.4 5.1 5.6.6-4.2 3.8 1.2 5.5L12 15.8 6.9 18l1.3-5.5-4.2-3.8 5.6-.6L12 3Z"/></svg>
+          <h3>Review Desk</h3>
+          <p>Named critics only — this desk opens once reviews of the debut singles are published.</p>
+        </a>
+        <a class="desk-card" href="#screening">
+          <span class="desk-card__num">DESK 03</span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5-4.5-2.5Z"/></svg>
+          <h3>Screening Room</h3>
+          <p>Official videos only, curated and embedded — never reuploaded.</p>
+        </a>
+        <a class="desk-card" href="#signal">
+          <span class="desk-card__num">DESK 04</span>
+          <svg viewBox="0 0 24 24"><path d="M12 20v-6"/><path d="M8.5 17.5a5 5 0 0 1 0-9"/><path d="M4.5 20a10 10 0 0 1 0-16"/><path d="M15.5 17.5a5 5 0 0 0 0-9"/><path d="M19.5 20a10 10 0 0 0 0-16"/><circle cx="12" cy="12" r="1.4"/></svg>
+          <h3>Signal Desk</h3>
+          <p>A running clock on the debut era's key dates, converted to your local time.</p>
+        </a>
+        <a class="desk-card" href="#quiz">
+          <span class="desk-card__num">DESK 05</span>
+          <svg viewBox="0 0 24 24"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-1 .5-1.5 1.1-1.5 2.2"/><circle cx="12" cy="17.5" r="0.9" fill="var(--accent-deep)"/><circle cx="12" cy="12" r="9"/></svg>
+          <h3>Quiz Desk</h3>
+          <p>Quick, shareable quizzes built for the group chat, not the algorithm.</p>
+        </a>
+        <a class="desk-card" href="#market">
+          <span class="desk-card__num">DESK 06</span>
+          <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <h3>Market Desk</h3>
+          <p>Where to buy official merch abroad, without the guesswork.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="desk-section" id="news">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 01 · News</p>
+            <h2>Translated for the timeline you don't read.</h2>
+          </div>
+          <p class="desk-note">Every dispatch below links back to its original source — this desk summarizes, it doesn't replace.</p>
+        </div>
+        <div class="dispatch-grid">
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>K-WIRE NETWORK — OCT 16</span></p>
+<h3>K-Trail Seoul is live: a free K-pop pilgrimage map for Seoul, Busan, Goyang, Incheon and Jeju</h3>
+<p>K-Wire Network's sister project, K-Trail Seoul, is live and free to use — no account, no paywall. It's an offline-ready map of real K-pop pilgrimage spots: agency HQs, concert and broadcast venues, cafes and culture stops, plus curated hotels and restaurants near the busiest clusters, now covering five cities — Seoul, Busan, Goyang, Incheon and Jeju — and recently expanded with stops linked to the animated film KPop Demon Hunters, like Naksan Park and N Seoul Tower. It installs straight to your home screen as an app (Share → Add to Home Screen on iOS; on Android, open the link in Chrome rather than an in-app browser to get the install prompt), saves map areas for offline use, and lets you save and share individual spots. Heading to Seoul for the debut-era showcases? Start building your trail.</p>
+<p class="dispatch__credit">Posted by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://fhzl0117-hue.github.io/ktrail-seoul/?utm_source=a2o_wire&utm_medium=dispatch&utm_campaign=trail_spotlight" target="_blank" rel="noopener">Open K-Trail map ↗</a>
+</article>
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>SEOUL — OCT 15</span></p>
+<h3>A2O LITE takes "NEON" to its first music show on M Countdown</h3>
+<p>Barely two days after release, A2O LITE brought "NEON" to Mnet's M Countdown for its first music-show stage, scheduled for the Oct. 15 6 PM KST broadcast, as the song was still sitting at No. 1 on Melon's Top 100. Topstar News also notes that fan-made videos using the track's audio were spreading on TikTok and YouTube.</p>
+<p class="dispatch__credit">Summarized from Topstar News by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://www.topstarnews.net/news/articleView.html?idxno=16247813" target="_blank" rel="noopener">Read the original source ↗</a>
+</article>
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>SEOUL — OCT 14</span></p>
+<h3>"NEON" hits No. 1 on Melon in 29 hours, fastest rookie-group debut since 2021</h3>
+<p>A2O LITE's debut single "NEON" reached No. 1 on Melon's Top 100 at 11 PM KST on Oct. 14 — 29 hours after its 6 PM release the day before. The Korea JoongAng Daily reports it is the fastest a rookie group's debut song has topped the chart since Melon revamped it in 2021, beating the previous mark held by Allday Project's "Famous" (2025), which took about three days. It is Lee Soo-man's first new girl group for the Korean market since he left SM Entertainment in 2023.</p>
+<p class="dispatch__credit">Summarized from Korea JoongAng Daily and Soompi by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://www.koreajoongangdaily.com/entertainment/29-hours-to-no-1-a2o-lite-makes-a-recordbreaking-debut/12923955" target="_blank" rel="noopener">Read the original source ↗</a>
+</article>
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>SEOUL — OCT 13</span></p>
+<h3>A2O LITE and A2O SOUL release debut singles "NEON" and "SUPERSTAR"</h3>
+<p>Both groups released their debut singles at 6 PM KST on Oct. 13 — nine-member A2O LITE with "NEON," a bass-driven dance-pop track the company calls "Zalpha pop," and 15-member A2O SOUL with the pre-release single "SUPERSTAR." Soompi's profile-photo report names A2O LITE as Young, Oa, Ayune, Aijing, Himeki, Rada, Xili, Vora, and Merci, and A2O SOUL as Moon, Tai, Gaku, See-one, Seoha, Sono, Lucien, Zai, Ayden, Alure, Zet, Sora, Teo, June, and Hansung. The NEON music video had been pre-released the night before, at 9:30 PM KST on Oct. 12.</p>
+<p class="dispatch__credit">Summarized from Soompi by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://www.soompi.com/article/1878391wpp/lee-soo-mans-new-groups-a2o-lite-and-a2o-soul-unveil-profile-photos" target="_blank" rel="noopener">Read the original source ↗</a>
+</article>
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>GOYANG — OCT 12</span></p>
+<h3>Global debut showcase at KINTEX introduces a shared sci-fi universe and 4D tech</h3>
+<p>A2O Entertainment held its joint debut show, "WELCOME TO SOULITE From A2O SOUL A2O LITE," at KINTEX in Goyang, with both groups performing live for the first time; it streamed worldwide through M2 and Mnet Plus. The groups share a fictional universe the company calls ACE (A2O Cosmic Epic), set on a resource-rich planet named Soulite. Lee Soo-man also presented 4D Gaussian Splatting — multi-camera footage combined into a 3D space so new camera moves can be added after filming, developed with Samsung Electronics — and an AI-powered fan platform called Blooming Talk. Producer Yoo Young-jin, known for work with aespa and NCT, oversees both groups' music and performances.</p>
+<p class="dispatch__credit">Summarized from The Korea Times and Korea JoongAng Daily by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://www.koreatimes.co.kr/entertainment/k-pop/20261012/sm-founder-lee-soo-man-returns-home-with-tech-driven-double-debut" target="_blank" rel="noopener">Read the original source ↗</a>
+</article>
+<article class="dispatch">
+<p class="dispatch__eyebrow"><span>SEOUL — OCT 8</span></p>
+<h3>A2O Entertainment opens official channels for its first domestic debut project</h3>
+<p>Lee Soo-man's A2O Entertainment, where he serves as Key Producer and Visionary Leader, opened the groups' official channels on Oct. 8 and announced the simultaneous debut of boy group A2O SOUL and girl group A2O LITE. Pre-debut promotion included a teaser on Mnet's M Countdown, a mood film for A2O SOUL, and individual member trailers for A2O LITE.</p>
+<p class="dispatch__credit">Summarized from Sports Kyunghyang by A2O Wire staff.</p>
+<a class="dispatch__link" href="https://sports.khan.co.kr/en/article/202610081921007" target="_blank" rel="noopener">Read the original source ↗</a>
+</article>
+        </div>
+
+        <div class="desk-head" style="margin-top:2.5rem;">
+          <div>
+            <p class="section-label">Roster check-in · Oct 2026</p>
+            <h2 style="font-size:clamp(1.2rem,2.4vw,1.5rem);">Who debuted, in one place.</h2>
+          </div>
+        </div>
+        <div class="market-grid">
+          <div class="market-card">
+            <h3>A2O LITE · 9 members</h3>
+            <p>Young, Oa, Ayune, Aijing, Himeki, Rada, Xili, Vora, Merci. Debut single: "NEON" (Oct. 13, 2026).</p>
+          </div>
+          <div class="market-card">
+            <h3>A2O SOUL · 15 members</h3>
+            <p>Moon, Tai, Gaku, See-one, Seoha, Sono, Lucien, Zai, Ayden, Alure, Zet, Sora, Teo, June, Hansung. Pre-release single: "SUPERSTAR" (Oct. 13, 2026).</p>
+          </div>
+          <div class="market-card">
+            <h3>A note on spellings</h3>
+            <p>Outlets romanize some names differently. This desk follows Soompi's profile-photo report and will be corrected as the agency publishes official spellings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="desk-section desk-section--alt" id="reviews">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 02 · Review</p>
+            <h2>Waiting on the critics.</h2>
+          </div>
+          <p class="desk-note">Text only, always — no reposted photos or video frames on this desk. Ratings and pull quotes are sourced from named outside critics, not written in-house.</p>
+        </div>
+        <div class="market-grid">
+          <div class="market-card">
+            <h3>No critic reviews yet</h3>
+            <p>"NEON" and "SUPERSTAR" came out days ago, and this desk hasn't found a full review from a named critic to link to. Rather than write ratings in-house, it stays empty until one is published.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="desk-section" id="screening">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 03 · Screening Room</p>
+            <h2>Only what A2O's own channel actually published.</h2>
+          </div>
+          <p class="desk-note">Every clip here is an official YouTube embed, verified against the official A2O WORLD channel. If it isn't published there, it doesn't play on this desk.</p>
+        </div>
+        <div class="screen-grid">
+          <div class="screen-card">
+            <div class="screen-card__frame">
+              <iframe src="https://www.youtube.com/embed/D968qfUZMUE" title="A2O LITE 'NEON' Official Video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="screen-card__body">
+              <h3>"NEON" — Official Video</h3>
+              <p>A2O LITE's debut single, "Zalpha pop," from the official A2O WORLD channel. Pre-released Oct. 12, 2026.</p>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-card__frame">
+              <iframe src="https://www.youtube.com/embed/D8CYC5P6Z8Y" title="A2O SOUL 'SUPERSTAR' Official Video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="screen-card__body">
+              <h3>"SUPERSTAR" — Official Video</h3>
+              <p>A2O SOUL's debut pre-release single, from the official A2O WORLD channel. Released Oct. 13, 2026.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="desk-section desk-section--alt" id="signal">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 04 · Signal</p>
+            <h2>The debut-week clock, wherever you are.</h2>
+          </div>
+          <p class="desk-note">A running timer on the debut era's key dates — auto-converted to your local timezone. Past dates automatically flip to a "time since" count; future dates count down to "time left."</p>
+        </div>
+        <div class="signal-list" id="signalList">
+          <div class="signal-row" data-target="2026-10-15T18:00:00+09:00">
+            <div>
+              <p class="signal-row__name">First music-show stage for "NEON" on Mnet M Countdown</p>
+              <p class="signal-row__meta mono">6:00 PM KST (scheduled broadcast) · <span class="local-time">—</span></p>
+            </div>
+            <div class="signal-row__countdown mono"><span class="countdown-value">—</span><small>time since</small></div>
+          </div>
+          <div class="signal-row" data-target="2026-10-14T23:00:00+09:00">
+            <div>
+              <p class="signal-row__name">"NEON" reaches No. 1 on Melon Top 100</p>
+              <p class="signal-row__meta mono">11:00 PM KST · <span class="local-time">—</span></p>
+            </div>
+            <div class="signal-row__countdown mono"><span class="countdown-value">—</span><small>time since</small></div>
+          </div>
+          <div class="signal-row" data-target="2026-10-13T18:00:00+09:00">
+            <div>
+              <p class="signal-row__name">"NEON" and "SUPERSTAR" released</p>
+              <p class="signal-row__meta mono">6:00 PM KST · <span class="local-time">—</span></p>
+            </div>
+            <div class="signal-row__countdown mono"><span class="countdown-value">—</span><small>time since</small></div>
+          </div>
+          <div class="signal-row" data-target="2026-10-12T21:30:00+09:00">
+            <div>
+              <p class="signal-row__name">"NEON" music video pre-release</p>
+              <p class="signal-row__meta mono">9:30 PM KST · <span class="local-time">—</span></p>
+            </div>
+            <div class="signal-row__countdown mono"><span class="countdown-value">—</span><small>time since</small></div>
+          </div>
+        </div>
+        <p class="signal-footnote">Detected timezone: <span class="mono" id="detectedTz">—</span> · No future dates are confirmed yet; the next one appears here once announced.</p>
+      </div>
+    </section>
+
+    <section class="desk-section" id="quiz">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 05 · Quiz</p>
+            <h2>Which debut single matches your mood tonight?</h2>
+          </div>
+          <p class="desk-note">Three questions, no email required — built to demonstrate the interaction, not to collect data.</p>
+        </div>
+
+        <div class="quiz-panel">
+          <div class="quiz-body" id="quizBody">
+            <div class="quiz-question-wrap" data-q="0">
+              <p class="quiz-progress">QUESTION 1 / 3</p>
+              <p class="quiz-question">Pick a late-night activity.</p>
+              <div class="quiz-options">
+                <button class="quiz-option" data-era="neon">Turning the bass up and dancing in the kitchen</button>
+                <button class="quiz-option" data-era="superstar">Putting on a synth playlist and driving nowhere</button>
+                <button class="quiz-option" data-era="neon">Learning a new dance challenge from scratch</button>
+                <button class="quiz-option" data-era="superstar">Rewatching old-school boy-group stages</button>
+              </div>
+            </div>
+            <div class="quiz-question-wrap is-hidden" data-q="1">
+              <p class="quiz-progress">QUESTION 2 / 3</p>
+              <p class="quiz-question">Pick a concept.</p>
+              <div class="quiz-options">
+                <button class="quiz-option" data-era="neon">Heavy, resonant bass with an addictive hook</button>
+                <button class="quiz-option" data-era="superstar">Synthwave, spacecraft-crew uniforms</button>
+                <button class="quiz-option" data-era="neon">A world where colors come from memories and emotions</button>
+                <button class="quiz-option" data-era="superstar">A crew sent from another planet in search of "soul"</button>
+              </div>
+            </div>
+            <div class="quiz-question-wrap is-hidden" data-q="2">
+              <p class="quiz-progress">QUESTION 3 / 3</p>
+              <p class="quiz-question">Pick a feeling you want from a debut.</p>
+              <div class="quiz-options">
+                <button class="quiz-option" data-era="neon">Adrenaline</button>
+                <button class="quiz-option" data-era="superstar">Nostalgia</button>
+                <button class="quiz-option" data-era="neon">Curiosity</button>
+                <button class="quiz-option" data-era="superstar">Awe</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult">
+            <p class="quiz-progress">RESULT</p>
+            <h3 class="quiz-result__title" id="resultTitle"></h3>
+            <p class="quiz-result__body" id="resultBody"></p>
+            <p class="quiz-result__track mono" id="resultTrack"></p>
+            <button class="quiz-reset" id="quizReset">Take it again ↺</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="desk-section desk-section--alt" id="market">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">Desk 06 · Market</p>
+            <h2>Official channels, in one place.</h2>
+          </div>
+          <p class="desk-note">No official merch store had been announced as of this build, so this desk lists only the links the group's own channel publishes.</p>
+        </div>
+        <div class="market-grid">
+          <div class="market-card">
+            <h3>A2O WORLD on YouTube</h3>
+            <p>The official channel for A2O LITE and A2O SOUL — music videos, performance videos, and announcements.</p>
+            <a href="https://www.youtube.com/@A2OWORLD" target="_blank" rel="noopener">Visit the channel ↗</a>
+          </div>
+          <div class="market-card">
+            <h3>"NEON" pre-save page</h3>
+            <p>The link A2O WORLD lists in the video description for A2O LITE's debut single.</p>
+            <a href="https://presave.a2olite.world/neon" target="_blank" rel="noopener">Open the page ↗</a>
+          </div>
+          <div class="market-card">
+            <h3>"SUPERSTAR" pre-save page</h3>
+            <p>The link A2O WORLD lists in the video description for A2O SOUL's pre-release single.</p>
+            <a href="https://presave.a2osoul.world/superstar" target="_blank" rel="noopener">Open the page ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon" id="about">
+    <div class="wrap colophon__grid">
+      <div>
+        <a class="wordmark" href="#top">A2O Wire</a>
+        <p>An independent, unofficial wire for English-speaking A2O fans — built to translate, schedule, and curate, never to reproduce.</p>
+<p class="colophon__links"><a href="#privacy" style="color:var(--accent-deep); font-weight:600; text-decoration:none;">Privacy Policy</a> &middot; <a href="mailto:fhzl0117@gmail.com" style="color:var(--accent-deep); font-weight:600; text-decoration:none;">Contact</a></p>
+      </div>
+      <div>
+        <p>A2O Wire is an independent fan project. It is not affiliated with, endorsed by, or sponsored by A2O Entertainment, Mnet, or the members of A2O LITE or A2O SOUL. All trademarks and copyrighted material belong to their respective owners. Video appears exclusively through official YouTube embeds and is never re-hosted; no third-party photography appears on this page.</p>
+        <p class="colophon__fine">PROTOTYPE BUILD — News Desk items and Signal Desk timestamps are compiled from public reporting as of October 2026 and linked to their original sources; this page itself is not yet a live, continuously-updated site. Member-name romanizations vary between outlets. Verify dates with the group's official channel.</p>
+<p class="colophon__fine">Part of the <a href="https://fhzl0117-hue.github.io/">K-Wire Network</a> — <a href="https://fhzl0117-hue.github.io/bangtan-wire/">Bangtan</a> &middot; <a href="https://fhzl0117-hue.github.io/gidle-wire/">(G)I-DLE</a> &middot; <a href="https://fhzl0117-hue.github.io/zerobaseone-wire/">ZEROBASEONE</a> &middot; <a href="https://fhzl0117-hue.github.io/twice-wire/">TWICE</a> &middot; <a href="https://fhzl0117-hue.github.io/seventeen-wire/">SEVENTEEN</a> &middot; <a href="https://fhzl0117-hue.github.io/txt-wire/">TXT</a> &middot; <a href="https://fhzl0117-hue.github.io/riize-wire/">RIIZE</a> &middot; <a href="https://fhzl0117-hue.github.io/aespa-wire/">aespa</a> &middot; <a href="https://fhzl0117-hue.github.io/enhypen-wire/">ENHYPEN</a> &middot; <a href="https://fhzl0117-hue.github.io/blackpink-wire/">Blackpink</a> &middot; <a href="https://fhzl0117-hue.github.io/lesserafim-wire/">LE SSERAFIM</a> &middot; <a href="https://fhzl0117-hue.github.io/stray-kids-wire/">Stray Kids</a> &middot; <a href="https://fhzl0117-hue.github.io/ive-wire/">IVE</a> &middot; <a href="https://fhzl0117-hue.github.io/babymonster-wire/">BABYMONSTER</a> &middot; <a href="https://fhzl0117-hue.github.io/newjeans-wire/">NewJeans</a> &middot; <a href="https://fhzl0117-hue.github.io/illit-wire/">ILLIT</a> &middot; <a href="https://fhzl0117-hue.github.io/plave-wire/">PLAVE</a> &middot; <a href="https://fhzl0117-hue.github.io/nmixx-wire/">NMIXX</a>.</p>
+<p class="colophon__fine" id="privacy"><strong>Privacy Policy.</strong> This is an independent, non-commercial fan information page. No accounts, comments, or personal information are collected directly on this site. Standard technical logs (such as pages visited and browser type) may be recorded by the hosting provider (GitHub Pages) and by analytics tools used for traffic measurement. This site may display advertising served by Google AdSense; Google and its partners may use cookies to serve ads based on a visitor's prior visits to this and other sites. Visitors can opt out of personalized advertising via Google's Ads Settings (adssettings.google.com) or aboutads.info. Questions about this policy, or requests regarding your data, can be sent to <a href="mailto:fhzl0117@gmail.com">fhzl0117@gmail.com</a>. Last updated October 2026.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // ---- Signal desk: live elapsed/countdown timers + local time conversion ----
+  (function(){
+    var tzEl = document.getElementById('detectedTz');
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tzEl) tzEl.textContent = tz;
+
+    var rows = document.querySelectorAll('.signal-row');
+    rows.forEach(function(row){
+      var target = new Date(row.getAttribute('data-target'));
+      var localEl = row.querySelector('.local-time');
+      if (localEl){
+        localEl.textContent = target.toLocaleString(undefined, {dateStyle:'medium', timeStyle:'short'});
+      }
+      var cdEl = row.querySelector('.countdown-value');
+      var labelEl = row.querySelector('.signal-row__countdown small');
+      function tick(){
+        var now = new Date();
+        var diff = target - now;
+        var isPast = diff <= 0;
+        var abs = Math.abs(diff);
+        var d = Math.floor(abs / 86400000);
+        var h = Math.floor((abs % 86400000) / 3600000);
+        var m = Math.floor((abs % 3600000) / 60000);
+        var s = Math.floor((abs % 60000) / 1000);
+        cdEl.textContent = d + 'd ' + String(h).padStart(2,'0') + 'h ' + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's';
+        if (labelEl) labelEl.textContent = isPast ? 'time since' : 'time left';
+      }
+      tick();
+      setInterval(tick, 1000);
+    });
+  })();
+
+  // ---- Quiz desk ----
+  (function(){
+    var scores = {neon:0, superstar:0};
+    var qWraps = Array.prototype.slice.call(document.querySelectorAll('.quiz-question-wrap'));
+    var resultPanel = document.getElementById('quizResult');
+    var resultTitle = document.getElementById('resultTitle');
+    var resultBody = document.getElementById('resultBody');
+    var resultTrack = document.getElementById('resultTrack');
+    var resetBtn = document.getElementById('quizReset');
+
+    var results = {
+      neon: {
+        title: "You're in NEON mode.",
+        body: "Bass first, hook second — the company calls A2O LITE's sound \u201CZalpha pop,\u201D a bass-driven dance-pop aimed at Gen Z and Gen Alpha.",
+        track: "Starter track: \u201CNEON\u201D"
+      },
+      superstar: {
+        title: "SUPERSTAR is your frequency.",
+        body: "Synths up front and a crew-from-another-planet look — A2O SOUL's debut pre-release single is billed as \u201CNew Synthwave.\u201D",
+        track: "Starter track: \u201CSUPERSTAR\u201D"
+      }
+    };
+
+    document.getElementById('quizBody').addEventListener('click', function(e){
+      var btn = e.target.closest('.quiz-option');
+      if (!btn) return;
+      var era = btn.getAttribute('data-era');
+      scores[era]++;
+      var currentWrap = btn.closest('.quiz-question-wrap');
+      var idx = qWraps.indexOf(currentWrap);
+      currentWrap.classList.add('is-hidden');
+      if (qWraps[idx+1]){
+        qWraps[idx+1].classList.remove('is-hidden');
+      } else {
+        var winner = Object.keys(scores).reduce(function(a,b){ return scores[a] >= scores[b] ? a : b; });
+        var r = results[winner];
+        resultTitle.textContent = r.title;
+        resultBody.textContent = r.body;
+        resultTrack.textContent = r.track;
+        resultPanel.classList.add('is-active');
+      }
+    });
+
+    resetBtn.addEventListener('click', function(){
+      scores = {neon:0, superstar:0};
+      qWraps.forEach(function(w, i){ w.classList.toggle('is-hidden', i !== 0); });
+      resultPanel.classList.remove('is-active');
+    });
+  })();
+</script>
+</body>
+</html>
